@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication2.ViewModels;
 
 namespace WebApplication2.Repositories
 {
     public class CategoriesRepository
     {
-        public static List<string> GetCategories()
+        public static List<CategoryViewModel> GetCategories()
         {
-            List<string> results = new List<string>();
+            List<CategoryViewModel> results = new List<CategoryViewModel>();
             using (SqlConnection connection = new SqlConnection("Server=.;Database=TSQL2012;Trusted_Connection=True;"))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = connection;
-                cmd.CommandText = $"SELECT categoryname FROM Production.Categories";
+                cmd.CommandText = $"SELECT categoryid,categoryname,description FROM Production.Categories";
 
                 connection.Open();
 
@@ -23,7 +24,14 @@ namespace WebApplication2.Repositories
 
                 while (reader.Read())
                 {
-                    results.Add(reader["categoryname"].ToString());
+                    CategoryViewModel temp = new CategoryViewModel
+                    {
+                        CategoryId = int.Parse(reader["categoryid"].ToString()),
+                        CategoryName = reader["categoryname"].ToString(),
+                        Description = reader["description"].ToString()
+                    };
+                    results.Add(temp);
+
                 }
             }
 

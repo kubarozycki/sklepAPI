@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Repositories;
+using WebApplication2.ViewModels;
 
 namespace WebApplication2.Controllers
 {
@@ -14,7 +15,7 @@ namespace WebApplication2.Controllers
     {
         // GET: api/Categories
         [HttpGet]
-        public List<string> Get()
+        public List<CategoryViewModel> Get()
         {
             return CategoriesRepository.GetCategories();
         }
